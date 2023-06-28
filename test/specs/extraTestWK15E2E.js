@@ -79,7 +79,7 @@ describe ('Check elements and functionalities with standard user', () => {
         await MainPage.menuIcon.click();
         await MainPage.resetButton.click();
         const numberNotDisplayed = !( await MainPage.numberCartIcon.isDisplayed())
-        expect(numberNotDisplayed).toBe(false);
+        expect(numberNotDisplayed).toBe(true);
 
         await MainPage.closeSideBar.click();
     });
