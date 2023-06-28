@@ -1,5 +1,10 @@
 import LoginPage from '../pageobjects/loginPage.js';
 import MainPage from '../pageobjects/mainPage.js';
+import InventoryDetailsPage from '../pageobjects/inventoryDetailsPage.js';
+import CartPage from '../pageobjects/cartPage.js';
+import CheckoutStepOne from '../pageobjects/checkoutStepOne.js';
+import CheckoutStepTwo from '../pageobjects/checkoutStepTwo.js';
+import CheckoutComplete from '../pageobjects/checkoutComplete.js';
 
 describe ('Check elements and functionalities with standard user', () => {
     beforeAll('open browser', () => {
@@ -64,5 +69,69 @@ describe ('Check elements and functionalities with standard user', () => {
         expect(isSortedHtoL).toBe(true);
     });
 
+    it('Check that the shopping cart returns to zero by clicking the reset button in the hamburger menu', async() => {
+        await MainPage.firstAddCartButton.click();
+        await MainPage.secondAddCartButton.click();
 
+        const numberIcon = await MainPage.numberCartIcon.getText()
+
+        expect(numberIcon).toEqual('2');
+        await MainPage.menuIcon.click();
+        await MainPage.resetButton.click();
+        const numberNotDisplayed = !( await MainPage.numberCartIcon.isDisplayed())
+        expect(numberNotDisplayed).toBe(false);
+
+        await MainPage.closeSideBar.click();
+    });
+
+    it('Check for proper navigation from the twitter icon', async () => {
+        await MainPage.scrollDownToFooter();
+        await MainPage.twitterIcon.click();
+        const windowHandles = await browser.getWindowHandles();
+
+        const twitter = windowHandles[windowHandles.length - 1];
+        await browser.switchToWindow(twitter);
+
+        const currentUrl = await browser.getUrl();
+        expect(currentUrl).toEqual('https://twitter.com/saucelabs');
+
+        await browser.closeWindow();
+
+        const originalWindowHandle = windowHandles[0];
+        await browser.switchToWindow(originalWindowHandle)
+    });
+
+    it('Check for proper navigation from the facebook icon', async () => {
+        await MainPage.scrollDownToFooter();
+        await MainPage.facebookIcon.click();
+        const windowHandles = await browser.getWindowHandles();
+
+        const facebook = windowHandles[windowHandles.length - 1];
+        await browser.switchToWindow(facebook);
+
+        const currentUrl = await browser.getUrl();
+        expect(currentUrl).toEqual('https://www.facebook.com/saucelabs');
+
+        await browser.closeWindow();
+
+        const originalWindowHandle = windowHandles[0];
+        await browser.switchToWindow(originalWindowHandle)
+    });
+
+    it('Check for proper navigation from the linkedIn icon', async () => {
+        await MainPage.scrollDownToFooter();
+        await MainPage.linkedinIcon.click();
+        const windowHandles = await browser.getWindowHandles();
+
+        const linkedIn = windowHandles[windowHandles.length - 1];
+        await browser.switchToWindow(linkedIn);
+
+        const currentUrl = await browser.getUrl();
+        expect(currentUrl).toEqual('https://www.linkedin.com/company/sauce-labs/');
+
+        await browser.closeWindow();
+
+        const originalWindowHandle = windowHandles[0];
+        await browser.switchToWindow(originalWindowHandle)
+    });
 });
