@@ -6,6 +6,12 @@ class MainPage {
     get productsIcon() { return $('.title')};
     get logoutButton() { return $('#logout_sidebar_link')};
 
+    get filterProducts() { return $('[data-test="product_sort_container"]')};
+    get sortAtoZ() { return $('[data-test="product_sort_container"] > option')};
+    get sortZtoA() { return $('[data-test="product_sort_container"] > option:nth-child(2)')};
+    get priceLtoH() { return $('[data-test="product_sort_container"] > option:nth-child(3)')};
+    get priceHtoL() { return $('[data-test="product_sort_container"] > option:nth-child(4)')};
+
     get firstImage() { return $('#item_4_img_link > img')};
     get firstProductTitle() { return $('#item_4_title_link')};
     get firstPrice() { return $('#inventory_container > div > div:nth-child(1) > div.inventory_item_description > div.pricebar > div')}
@@ -102,6 +108,8 @@ class MainPage {
         ]);
     };
 
+
+
     async logout () {
         await this.menuIcon.click();
         await this.logoutButton.click();
@@ -109,3 +117,7 @@ class MainPage {
 };
 
 export default new MainPage();
+
+/*const link = await $('=WebdriverIO')
+await expect(link).toHaveText('WebdriverIO')
+await expect(link).toHaveAttribute('href', 'https://webdriver.io')*/
