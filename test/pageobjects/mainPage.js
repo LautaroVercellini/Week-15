@@ -5,6 +5,9 @@ class MainPage {
     get menuIcon() { return $('#react-burger-menu-btn') };
     get productsIcon() { return $('.title')};
     get logoutButton() { return $('#logout_sidebar_link')};
+    get resetButton() { return $('#reset_sidebar_link')};
+    get numberCartIcon() { return $('#shopping_cart_container > a > span')};
+    get closeSideBar() { return $('#react-burger-cross-btn')};
 
     get filterProducts() { return $('[data-test="product_sort_container"]')};
     get sortAtoZ() { return $('[data-test="product_sort_container"] > option')};

@@ -1,10 +1,5 @@
 import LoginPage from '../pageobjects/loginPage.js';
 import MainPage from '../pageobjects/mainPage.js';
-import InventoryDetailsPage from '../pageobjects/inventoryDetailsPage.js';
-import CartPage from '../pageobjects/cartPage.js';
-import CheckoutStepOne from '../pageobjects/checkoutStepOne.js';
-import CheckoutStepTwo from '../pageobjects/checkoutStepTwo.js';
-import CheckoutComplete from '../pageobjects/checkoutComplete.js';
 
 describe ('Check elements and functionalities with standard user', () => {
     beforeAll('open browser', () => {
@@ -35,17 +30,39 @@ describe ('Check elements and functionalities with standard user', () => {
 
         const filteredTitles = await $$('[id^="item_"][id$="_title_link"]').map(element => element.getText());
         const sortedTitles = originalTitles.slice().sort().reverse();
-        const isSortedCorrectly = JSON.stringify(filteredTitles) === JSON.stringify(sortedTitles);
-        expect(isSortedCorrectly).toBe(true);
+        const isSortedZtoA = JSON.stringify(filteredTitles) === JSON.stringify(sortedTitles);
+        expect(isSortedZtoA).toBe(true);
     });
 
-    
+    it('Verify that the products are sorted from lowest price to highest price after clicking the filter', async() => {
+        const originalPrices = await
+            $$('#inventory_container > div > div > div.inventory_item_description > div.pricebar > div').map(element => element.getText());
+        const intPrices = originalPrices.map(element => parseFloat(element));
+        const sortedPrices = intPrices.sort();
+        await MainPage.filterProducts.click();
+        await MainPage.priceLtoH.click();
+
+        const filteredPrices = await
+            $$('#inventory_container > div > div > div.inventory_item_description > div.pricebar > div').map(element => element.getText());
+        const filteredIntPrices = filteredPrices.map(element => parseFloat(element));
+        const isSortedLtoH = JSON.stringify(filteredIntPrices) === JSON.stringify(sortedPrices);
+        expect(isSortedLtoH).toBe(true);
+    });
+
+    it('Verify that the products are sorted from higest price to lowest price after clicking the filter', async() => {
+        const originalPrices = await
+            $$('#inventory_container > div > div > div.inventory_item_description > div.pricebar > div').map(element => element.getText());
+        const intPrices = originalPrices.map(element => parseFloat(element));
+        const sortedPrices = intPrices.sort().reverse();
+        await MainPage.filterProducts.click();
+        await MainPage.priceHtoL.click();
+
+        const filteredPrices = await
+            $$('#inventory_container > div > div > div.inventory_item_description > div.pricebar > div').map(element => element.getText());
+        const filteredIntPrices = filteredPrices.map(element => parseFloat(element));
+        const isSortedHtoL = JSON.stringify(filteredIntPrices) === JSON.stringify(sortedPrices);
+        expect(isSortedHtoL).toBe(true);
+    });
+
+
 });
-
-
-
-
-/* get allPrices() { return $$('#inventory_container > div > div > div.inventory_item_description > div.pricebar > div')};
-        get allTitles() { return $$('[id^="item_"][id$="_title_link"]')}
-    });
-*/
